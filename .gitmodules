@@ -1,0 +1,7 @@
+[submodule "colby"]
+	path = colby
+	url = mdgit@mattifesto.com:~/colby.git
+[submodule "swiftmailer"]
+	path = swiftmailer
+	url = https://github.com/swiftmailer/swiftmailer.git
+	branch = 5.x

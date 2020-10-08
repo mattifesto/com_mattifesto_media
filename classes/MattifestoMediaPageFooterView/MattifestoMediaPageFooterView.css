@@ -1,0 +1,12 @@
+.MattifestoMediaPageFooterView .copyright {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: 10px;
+
+    color: var(--CBTextColor2);
+    font-size: 80%;
+}
