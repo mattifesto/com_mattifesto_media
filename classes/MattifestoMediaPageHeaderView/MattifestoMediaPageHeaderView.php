@@ -1,13 +1,21 @@
 <?php
 
-final class MattifestoMediaPageHeaderView {
+final class
+MattifestoMediaPageHeaderView {
+
+    /* -- CBView interfaces -- */
+
+
 
     /**
-     * @param model $model
+     * @param object $model
      *
      * @return void
      */
-    static function CBView_render(stdClass $model): void {
+    static function
+    CBView_render(
+        stdClass $model
+    ): void {
         $selectedMainMenuItemName = CBModel::valueToString(
             CBHTMLOutput::pageInformation(),
             'selectedMainMenuItemName'
@@ -18,15 +26,25 @@ final class MattifestoMediaPageHeaderView {
         <header class="MattifestoMediaPageHeaderView CBDarkTheme">
             <?php
 
-            CBView::render((object)[
-                'className' => 'CBMenuView',
-                'menuID' => MattifestoMediaMenu_main::ID(),
-                'selectedItemName' => $selectedMainMenuItemName,
-            ]);
+            CBView::renderSpec(
+                (object)[
+                    'className' => 'CB_CBView_MainHeader',
+                ]
+            );
+
+            CBView::render(
+                (object)[
+                    'className' => 'CBMenuView',
+                    'menuID' => MattifestoMediaMenu_main::ID(),
+                    'selectedItemName' => $selectedMainMenuItemName,
+                ]
+            );
 
             ?>
         </header>
 
         <?php
     }
+    /* CBView_render() */
+
 }
