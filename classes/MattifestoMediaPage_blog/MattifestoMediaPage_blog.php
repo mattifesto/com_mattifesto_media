@@ -1,6 +1,7 @@
 <?php
 
-final class MattifestoMediaPage_blog {
+final class
+MattifestoMediaPage_blog {
 
     /**
      * @return void
@@ -10,12 +11,16 @@ final class MattifestoMediaPage_blog {
         MattifestoMediaPage_blog::installMenuItem();
     }
 
+
+
     /**
      * @return ID
      */
     static function ID(): string {
         return 'a228cc77e377fb1e4c507ed635995346d13c2476';
     }
+
+
 
     /**
      * @return void
@@ -41,38 +46,59 @@ final class MattifestoMediaPage_blog {
 
         CBModelUpdater::save($updater);
     }
+    /* installMenuItem() */
+
+
 
     /**
      * @return void
      */
-    private static function installPage(): void {
-        $updater = CBModelUpdater::fetch(
-            CBModelTemplateCatalog::fetchLivePageTemplate(
-                (object)[
-                    'ID' => MattifestoMediaPage_blog::ID(),
-                    'classNameForKind' => 'MattifestoMediaGeneratedPageKind',
-                    'isPublished' => true,
-                    'selectedMenuItemNames' => 'blog',
-                    'title' => 'Blog',
-                    'URI' => 'blog',
-                ]
-            )
+    private static function
+    installPage(
+    ): void {
+        $updater = new CBModelUpdater(
+            MattifestoMediaPage_blog::ID()
         );
 
-        $pageSpec = $updater->working;
+        $blogPageSpec = $updater->getSpec();
+
+        CBModel::merge(
+            $blogPageSpec,
+            CBViewPage::standardPageTemplate()
+        );
+
+        CBModel::merge(
+            $blogPageSpec,
+            (object)[
+                'classNameForKind' => 'MattifestoMediaGeneratedPageKind',
+                'isPublished' => true,
+                'selectedMenuItemNames' => 'blog',
+                'title' => 'Blog',
+                'URI' => 'blog',
+            ]
+        );
+
 
         /* publicationTimeStamp */
 
-        if (CBModel::valueAsInt($pageSpec, 'publicationTimeStamp') === null) {
-            $pageSpec->publicationTimeStamp = time();
+        $currentPublicationTimeStamp = CBModel::valueAsInt(
+            $blogPageSpec,
+            'publicationTimeStamp'
+        );
+
+        if (
+            $currentPublicationTimeStamp === null
+        ) {
+            $blogPageSpec->publicationTimeStamp = time();
         }
+
 
         /* page title and description view */
 
         $sourceID = '0dc7571cd8fcf75a37656435eb49c67598185890';
 
         CBSubviewUpdater::unshift(
-            $pageSpec,
+            $blogPageSpec,
             'sourceID',
             $sourceID,
             (object)[
@@ -81,12 +107,13 @@ final class MattifestoMediaPage_blog {
             ]
         );
 
+
         /* page list view */
 
         $sourceID = 'eac5195e77c06a3c2be4b0c52715add129f5d17e';
 
         CBSubviewUpdater::push(
-            $pageSpec,
+            $blogPageSpec,
             'sourceID',
             $sourceID,
             (object)[
@@ -96,8 +123,11 @@ final class MattifestoMediaPage_blog {
             ]
         );
 
+
         /* save */
 
-        CBModelUpdater::save($updater);
+        $updater->save2();
     }
+    /* installPage() */
+
 }
