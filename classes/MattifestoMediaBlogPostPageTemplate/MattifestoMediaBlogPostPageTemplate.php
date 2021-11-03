@@ -34,14 +34,18 @@ final class MattifestoMediaBlogPostPageTemplate {
      * @return object
      */
     static function CBModelTemplate_spec(): stdClass {
-        return (object)[
-            'className' => 'CBViewPage',
-            'classNameForKind' => 'MattifestoMediaBlogPostPageKind',
-            'classNameForSettings' => 'MattifestoMediaPageSettings',
-            'frameClassName' => 'MattifestoMediaPageFrame',
-            'selectedMainMenuItemName' => 'blog',
-            'sections' => CBDefaults_BlogPost::viewSpecs(),
-        ];
+        $pageTemplate = CBViewPage::standardPageTemplate();
+
+        CBModel::merge(
+            $pageTemplate,
+            (object)[
+                'classNameForKind' => 'MattifestoMediaBlogPostPageKind',
+                'selectedMainMenuItemName' => 'blog',
+                'sections' => CBDefaults_BlogPost::viewSpecs(),
+            ]
+        );
+
+        return $pageTemplate;
     }
     /* CBModelTemplate_spec() */
 
