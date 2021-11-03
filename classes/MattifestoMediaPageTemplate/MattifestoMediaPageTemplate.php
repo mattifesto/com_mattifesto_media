@@ -21,22 +21,26 @@ final class MattifestoMediaPageTemplate {
      * @return model
      */
     static function CBModelTemplate_spec(): stdClass {
-        return (object)[
-            'className' => 'CBViewPage',
-            'classNameForSettings' => 'MattifestoMediaPageSettings',
-            'frameClassName' => 'MattifestoMediaPageFrame',
-            'sections' => [
-                (object)[
-                    'className' => 'CBPageTitleAndDescriptionView',
+        $pageTemplate = CBViewPage::standardPageTemplate();
+
+        CBModel::merge(
+            $pageTemplate,
+            (object)[
+                'sections' => [
+                    (object)[
+                        'className' => 'CBPageTitleAndDescriptionView',
+                    ],
+                    (object)[
+                        'className' => 'CBArtworkView',
+                    ],
+                    (object)[
+                        'className' => 'CBMessageView',
+                    ],
                 ],
-                (object)[
-                    'className' => 'CBArtworkView',
-                ],
-                (object)[
-                    'className' => 'CBMessageView',
-                ],
-            ],
-        ];
+            ]
+        );
+
+        return $pageTemplate;
     }
 
     /**
