@@ -1,15 +1,22 @@
 <?php
 
 final class
-MattifestoMediaPage_blog {
+MattifestoMedia_Install_BlogPage {
 
     /**
      * @return void
      */
-    static function CBInstall_configure(): void {
-        MattifestoMediaPage_blog::installPage();
-        MattifestoMediaPage_blog::installMenuItem();
+    static function
+    CBInstall_configure(
+    ): void {
+        MattifestoMedia_Install_BlogPage::installPage(
+            MattifestoMedia_Install_BlogPage::ID(),
+            'blog'
+        );
+
+        MattifestoMedia_Install_BlogPage::installMenuItem();
     }
+    /* CBInstall_configure() */
 
 
 
@@ -19,6 +26,7 @@ MattifestoMediaPage_blog {
     static function ID(): string {
         return 'a228cc77e377fb1e4c507ed635995346d13c2476';
     }
+    /* ID() */
 
 
 
@@ -51,13 +59,20 @@ MattifestoMediaPage_blog {
 
 
     /**
+     * @param CBID $pageModelCBID;
+     * @param string $URI
+     *
+     *      The parameters for this function are to make it testable.
+     *
      * @return void
      */
-    private static function
+    static function
     installPage(
+        string $pageModelCBID,
+        string $pageURI
     ): void {
         $updater = new CBModelUpdater(
-            MattifestoMediaPage_blog::ID()
+            $pageModelCBID,
         );
 
         $blogPageSpec = $updater->getSpec();
@@ -74,10 +89,13 @@ MattifestoMediaPage_blog {
                 'isPublished' => true,
                 'selectedMenuItemNames' => 'blog',
                 'title' => 'Blog',
-                'URI' => 'blog',
             ]
         );
 
+        CBViewPage::setURI(
+            $blogPageSpec,
+            $pageURI
+        );
 
         /* publicationTimeStamp */
 
@@ -126,7 +144,13 @@ MattifestoMediaPage_blog {
 
         /* save */
 
-        $updater->save2();
+        CBDB::transaction(
+            function () use (
+                $updater
+            ) {
+                $updater->save2();
+            }
+        );
     }
     /* installPage() */
 
